@@ -1,0 +1,9 @@
+<div>
+    <h3>Hi {{ username }}!</h3>
+    <p>Click the link below to activate your account.</p>
+    <p>
+        <a href="http://{{ domain }}{% url 'activate-account' uidb64=uid token=token %}">
+            Activate Account
+        </a>
+    </p>
+</div>

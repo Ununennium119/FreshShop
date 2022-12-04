@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static %}
+{% load thumbnail %}
+{% load render_partial %}
+
+{% block title %}
+    Fresh Shop
+{% endblock %}
+
+{% block content %}
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Shop</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{% url "home" %}">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Shop</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Shop Page  -->
+    <div class="shop-box-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 col-lg-9 col-sm-12 col-xs-12 shop-content-right">
+                    <div class="right-product-box">
+                        <div class="product-item-filter row">
+                            <div class="col-12 col-sm-8 text-center text-sm-left">
+                                <div class="toolbar-sorter-right">
+                                    <span>Sort by </span>
+                                    <select id="sort-select" class="selectpicker show-tick form-control"
+                                            data-placeholder="$ USD">
+                                        <option data-display="Select" value="popular">
+                                            Popularity
+                                        </option>
+                                        <option value="sell">
+                                            Best Selling
+                                        </option>
+                                        <option value="price-desc">
+                                            High Price → Low Price
+                                        </option>
+                                        <option value="price-asc">
+                                            Low Price → High Price
+                                        </option>
+                                    </select>
+                                </div>
+                                <p>
+                                    {{ paginator.count }} result{{ paginator.count|pluralize }}
+                                </p>
+                            </div>
+                            <div class="col-12 col-sm-4 text-center text-sm-right">
+                                <ul class="nav nav-tabs ml-auto">
+                                    <li>
+                                        <a class="nav-link active" href="#grid-view" data-toggle="tab">
+                                            <i class="fa fa-th"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link" href="#list-view" data-toggle="tab">
+                                            <i class="fa fa-list-ul"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="product-categories-box">
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
+                                    <div class="row">
+                                        {% for product in product_list %}
+                                            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                                {% include "products/components/product_component_grid.html" %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade" id="list-view">
+                                    {% for product in product_list %}
+                                        <div class="list-view-box">
+                                            {% include "products/components/product_component_list.html" %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                                <li>
+                                    <a class="cursor-pointer hvr-hover"
+                                       onclick="fillPage({{ page_obj.previous_page_number }})">
+                                        Prev
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% for page_number in paginator.page_range %}
+                                <li class="{% if page_obj.number == page_number %} active {% endif %}">
+                                    <a class="cursor-pointer hvr-hover" onclick="fillPage({{ page_number }})">
+                                        {{ page_number }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li>
+                                    <a class="cursor-pointer hvr-hover"
+                                       onclick="fillPage({{ page_obj.next_page_number }})">
+                                        Next
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-3 col-sm-12 col-xs-12 sidebar-shop-left">
+                    <div class="product-category">
+                        <div class="search-product">
+                            <input id="search_input" class="form-control" placeholder="Search here..." type="text"
+                                   value="{{ search_query }}">
+                            <button onclick="fillSearch()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+
+                        {% render_partial "products.views.product_category_component" %}
+
+                        <div class="filter-price-left">
+                            <div class="title-left">
+                                <h3>Price</h3>
+                            </div>
+                            <div class="price-box-slider">
+                                <div id="slider-range"></div>
+                                <p>
+                                    <input type="text" id="amount" readonly/>
+                                    <button class="btn hvr-hover" id="price-slider-btn">
+                                        Filter
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+
+                        <form id="filter_form" method="get">
+                            <input type="hidden" id="sort" name="sort" value="{{ sort }}"/>
+                            <input type="hidden" id="search_query" name="search_query" value="{{ search_query }}"/>
+                            <input type="hidden" id="category" name="category" value="{{ category_slug }}"/>
+                            <input type="hidden" id="start_price" name="start_price" value="{{ start_price }}"/>
+                            <input type="hidden" id="end_price" name="end_price" value="{{ end_price }}"/>
+                            <input type="hidden" id="page" name="page" value="{{ paginator.page }}"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Shop Page -->
+{% endblock %}

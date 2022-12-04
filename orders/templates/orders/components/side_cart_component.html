@@ -1,0 +1,30 @@
+{% load thumbnail %}
+
+<!-- Start Side Menu -->
+<div class="side">
+    <a href="#" class="close-side"><i class="fa fa-times"></i></a>
+    <div class="cart-box">
+        <ul class="cart-list">
+            {% for order_item in order.items.all %}
+                <li>
+                    <a href="#" class="photo">
+                        {% thumbnail order_item.product.get_main_image "255x255" as im %}
+                            <img src="{{ im.url }}" class="cart-thumb" alt="{{ product.name }} Image">
+                        {% endthumbnail %}
+                    </a>
+                    <h6>
+                        <a href="{% url "single-product" order_item.product.slug %}">
+                            {{ order_item.prodct.name }}
+                        </a>
+                    </h6>
+                    <p>{{ order_item.count }}x - <span class="price">${{ order_item.final_price }}</span></p>
+                </li>
+            {% endfor %}
+            <li class="total">
+                <a href="{% url "cart" %}" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
+                <span class="float-right"><strong>Total</strong>: ${{ order.total_price }}</span>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- End Side Menu -->

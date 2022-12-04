@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+{% load social_share %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}
+    {{ object.name }} | Fresh Shop
+{% endblock %}
+
+{% block content %}
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Shop Detail</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "products" %}">Shop</a></li>
+                        <li class="breadcrumb-item active">Shop Detail</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Shop Detail  -->
+    <div class="shop-detail-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-5 col-md-6">
+                    <div id="carousel-1" class="single-product-slider carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" role="listbox">
+                            {% for image in product_images %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    {% thumbnail image "415x460" padding=True as im %}
+                                        <img class="d-block w-100" src="{{ im.url }}" alt="Product Image">
+                                    {% endthumbnail %}
+                                </div>
+                            {% endfor %}
+                            {% if product_images.count == 0 %}
+                                <img src="{% static "images/product-default.jpg" %}" class="img-fluid"
+                                     alt="{{ product.name }} Image">
+                            {% endif %}
+                        </div>
+                        {% if product_images.count > 1 %}
+                            <a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev">
+                                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carousel-1" role="button" data-slide="next">
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        {% endif %}
+                        <ol class="carousel-indicators">
+                            {% if images_count > 1 %}
+                                {% for image in product_images %}
+                                    <li data-target="#carousel-1" data-slide-to="{{ forloop.counter0 }}"
+                                        class="{% if forloop.first %}active{% endif %}">
+                                        {% thumbnail image "100x100" as im %}
+                                            <img class="d-block w-100 img-fluid" src="{{ im.url }}"
+                                                 alt="Product image"/>
+                                        {% endthumbnail %}
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        </ol>
+                    </div>
+                </div>
+                <div class="col-xl-7 col-lg-7 col-md-6">
+                    <div class="single-product-details">
+                        <h2>{{ object.name }}</h2>
+                        <h5>
+                            {% if object.discount_percentage != 0 %}
+                                <del>${{ object.price }}</del>
+                                ${{ object.discounted_price }}
+                            {% else %}
+                                ${{ object.price }}
+                            {% endif %}
+                        </h5>
+                        <p class="available-stock">
+                            <span> {{ object.available_quantity }} available</span>
+                        <p>
+                        <h4>Description:</h4>
+                        <p>{{ object.description }}</p>
+                        <ul>
+                            <li>
+                                <div class="form-group quantity-box">
+                                    <label class="control-label">Quantity
+                                        <input id="quantity-input" class="form-control" value="1" min="1" max="99"
+                                               type="number">
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="price-box-bar">
+                                    <div class="cart-and-bay-btn">
+                                        <a class="btn hvr-hover cursor-pointer" data-fancybox-close=""
+                                           onclick="addProductToCart('{{ object.id }}')">
+                                            <i class="fab fa-opencart"></i> Add to cart
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+
+                        <div class="add-to-btn">
+                            <div class="add-comp">
+                                <a class="btn hvr-hover cursor-pointer"
+                                   onclick="addProductToWishlist('{{ product.id }}')">
+                                    <i class="fas fa-heart"></i> Add to wishlist
+                                </a>
+                                <a class="btn hvr-hover" href="#">
+                                    <i class="fas fa-sync-alt"></i> Add to Compare
+                                </a>
+                            </div>
+                            <div class="share-bar">
+                                <a class="btn hvr-hover" href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">
+                                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                                </a>
+                                <a class="btn hvr-hover" href="https://twitter.com/intent/tweet?text={{ product.name }}. Check it out! {{ request.build_absolute_uri }}" target="_blank">
+                                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                                </a>
+                                <a class="btn hvr-hover" href="https://www.pinterest.com/pin/create/button/?url={{ request.build_absolute_uri }}" target="_blank">
+                                    <i class="fab fa-pinterest-p" aria-hidden="true"></i>
+                                </a>
+                                <a class="btn hvr-hover" href="https://api.whatsapp.com/send?text={{ product.name }}. Check it out! {{ request.build_absolute_uri }}" target="_blank">
+                                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-5">
+                <div class="reviews-card card card-outline-secondary my-4">
+                    <div class="card-header">
+                        <h2>Product Reviews</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="reviews-container">
+                            {% for review in product.reviews_set.all %}
+                                <div class="media mb-3">
+                                    <div class="mr-2">
+                                        <img class="rounded-circle border p-1" src="{% static "images/64x64.svg" %}"
+                                             alt="User Image">
+                                    </div>
+                                    <div class="media-body">
+                                        <p>{{ review.content }}</p>
+                                        <small class="text-muted">
+                                            Posted by {{ review.user.username }}
+                                            on {{ review.create_time|date:"Y-m-d h:i A" }}
+                                        </small>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endfor %}
+                        </div>
+                        {% if request.user.is_authenticated %}
+                            <label for="review-input">Review</label>
+                            <textarea id="review-input" class="form-control"></textarea>
+                            <br>
+                            <a class="btn hvr-hover cursor-pointer" onclick="submitReview('{{ product.id }}')">
+                                Submit Review
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-5">
+                <div class="col-lg-12">
+                    <div class="title-all text-center">
+                        <h1>Featured Products</h1>
+                    </div>
+                    <div class="featured-products-box owl-carousel owl-theme">
+                        {% for featured_product in featured_products %}
+                            <div class="item">
+                                {% include "products/components/product_component_grid.html" with product=featured_product %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End Cart -->
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Account | Fresh Shop
+{% endblock %}
+
+{% block content %}
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Account</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "home" %}">Home</a></li>
+                        <li class="breadcrumb-item active">Account</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start My Account  -->
+    <div class="my-account-box-main">
+        <div class="container">
+            <div class="my-account-page">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12">
+                        <div class="account-box">
+                            <div class="service-box">
+                                <div class="service-icon">
+                                    <a href="{% url "edit-profile" %}"><i class="fa fa-pen"></i> </a>
+                                </div>
+                                <div class="service-desc">
+                                    <a href="{% url "edit-profile" %}"><h4>Edit Profile</h4></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="account-box">
+                            <div class="service-box">
+                                <div class="service-icon">
+                                    <a href="{% url "reset-password" %}"><i class="fa fa-lock"></i> </a>
+                                </div>
+                                <div class="service-desc">
+                                    <a href="{% url "reset-password" %}"><h4>Change Password</h4></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="account-box">
+                            <div class="service-box">
+                                <div class="service-icon">
+                                    <a href="{% url "wishlist" %}"> <i class="fa fa-heart"></i> </a>
+                                </div>
+                                <div class="service-desc">
+                                    <a href="{% url "wishlist" %}"><h4>Wishlist</h4></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="account-box">
+                            <div class="service-box">
+                                <div class="service-icon">
+                                    <a href="{% url "orders" %}"> <i class="fa fa-shopping-cart"></i> </a>
+                                </div>
+                                <div class="service-desc">
+                                    <a href="{% url "orders" %}"><h4>Orders</h4></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End My Account -->
+{% endblock %}

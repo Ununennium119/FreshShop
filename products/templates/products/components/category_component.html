@@ -1,0 +1,41 @@
+<div class="filter-sidebar-left">
+    <div class="title-left">
+        <h3>Categories</h3>
+    </div>
+    <div class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men"
+         data-children=".sub-men">
+        {% for category in categories %}
+            {% if not category.parent %}
+                {% if category.children.count > 0 %}
+                    <div class="list-group-collapse sub-men">
+                        <a class="cursor-pointer list-group-item list-group-item-action{% if selected_category == category %} active{% endif %}"
+                           onclick="fillCategory('{{ category.slug }}')">
+                            {{ category.name }}
+                        </a>
+                        <a class="category-btn list-group-item list-group-item-action"
+                           href="#sub-men-{{ category.slug }}" data-toggle="collapse" aria-expanded="true"
+                           aria-controls="sub-men-{{ category.slug }}">
+                            <span>&#9660;</span>
+                        </a>
+                        <div class="collapse{% if selected_category_parent == category %} show{% endif %}"
+                             id="sub-men-{{ category.slug }}" data-parent="#list-group-men">
+                            <div class="list-group">
+                                {% for child_category in category.children.all %}
+                                    <a onclick="fillCategory('{{ child_category.slug }}')"
+                                       class="cursor-pointer list-group-item list-group-item-action{% if selected_category == child_category %} active{% endif %}">
+                                        {{ child_category.name }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <a onclick="fillCategory('{{ category.slug }}')"
+                       class="cursor-pointer list-group-item list-group-item-action{% if selected_category == category %} active{% endif %}">
+                        {{ category.name }}
+                    </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>

@@ -1,0 +1,46 @@
+{% load static %}
+{% load thumbnail %}
+
+<div class="products-single fix">
+    <div class="box-img-hover">
+        {% if product.discount_percentage > 0 %}
+            <div class="type-lb">
+                <p class="sale">Sale</p>
+            </div>
+        {% endif %}
+        {% thumbnail product.get_main_image "255x255" as im %}
+            <img src="{{ im.url }}" class="img-fluid" alt="{{ product.name }} Image">
+        {% endthumbnail %}
+        <div class="mask-icon">
+            <ul>
+                <li>
+                    <a href="{{ product.get_absolute_url }}" data-toggle="tooltip" data-placement="right" title="View">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="cursor-pointer" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"
+                       onclick="addProductToWishlist('{{ product.id }}')">
+                        <i class="far fa-heart"></i>
+                    </a>
+                </li>
+            </ul>
+            <a class="cart cursor-pointer" onclick="addProductToCart('{{ product.id }}')">
+                <i class="fab fa-opencart"></i> Add to Cart
+            </a>
+        </div>
+    </div>
+    <div class="why-text">
+        <h4>{{ product.name }}</h4>
+        <h5>
+            {% if product.discount_percentage != 0 %}
+                <del>
+                    ${{ product.price }}
+                </del>
+                ${{ product.discounted_price }}
+            {% else %}
+                ${{ product.price }}
+            {% endif %}
+        </h5>
+    </div>
+</div>

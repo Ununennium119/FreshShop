@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}
+    Wishlist | Fresh Shop
+{% endblock %}
+
+{% block content %}
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Wishlist</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "home" %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url "account" %}">Account</a></li>
+                        <li class="breadcrumb-item active">Wishlist</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Wishlist  -->
+    <div class="wishlist-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Product Name</th>
+                                <th>Unit Price</th>
+                                <th>Available Quantity</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for wishlist_item in wishlist_items %}
+                                <tr id="wishlist-item-{{ wishlist_item.id }}">
+                                    <td class="thumbnail-img">
+                                        <a href="{% url "single-product" wishlist_item.product.slug %}">
+                                            {% thumbnail wishlist_item.product.get_main_image "255x255" as im %}
+                                                <img src="{{ im.url }}" class="img-fluid"
+                                                     alt="{{ wishlist_item.product.name }} Image">
+                                            {% endthumbnail %}
+                                        </a>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="{% url "single-product" wishlist_item.product.slug %}">
+                                            {{ wishlist_item.product.name }}
+                                        </a>
+                                    </td>
+                                    <td class="price-pr">
+                                        <p>${{ wishlist_item.product.discounted_price }}</p>
+                                    </td>
+                                    <td class="quantity-box">{{ wishlist_item.product.available_quantity }}</td>
+                                    <td class="add-pr">
+                                        <a class="btn hvr-hover cursor-pointer"
+                                           onclick="addProductToCart('{{ wishlist_item.product.id }}')">
+                                            Add to Cart
+                                        </a>
+                                    </td>
+                                    <td class="remove-pr">
+                                        <a class="cursor-pointer" onclick="removeWishlistItem('{{ wishlist_item.id }}')">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Wishlist -->
+{% endblock %}

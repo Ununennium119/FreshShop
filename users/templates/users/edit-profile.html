@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Edit Profile | Fresh Shop
+{% endblock %}
+
+{% block content %}
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Edit Profile</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "home" %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url "account" %}">Account</a></li>
+                        <li class="breadcrumb-item active">Edit Profile</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <div class="container">
+		<div class="row justify-content-center">
+			<aside class="col-sm-7">
+				<div class="card form-card">
+					<article class="card-body">
+						<div class="form-right">
+							<h2>Edit Profile</h2>
+							<hr>
+							<form id="edit-profile-form" method="post" action="{% url "edit-profile" %}">
+								{% csrf_token %}
+								<div class="row">
+									{% for field in form %}
+										<div class="col-md-12">
+											<div class="form-group has-error">
+												<label for="field.id_for_label">{{ field.label }}</label>
+												{{ field }}
+												<div class="help-block with-errors">
+													<ul class="list-unstyled">
+														{% for error in field.errors %}
+															<li>{{ error }}</li>
+														{% endfor %}
+													</ul>
+												</div>
+											</div>
+										</div>
+									{% endfor %}
+									<div class="col-md-4 offset-md-4 text-center">
+										<div class="help-block with-errors">
+											<ul class="list-unstyled">
+												{% if message %}
+													<li>{{ message }}</li>
+												{% endif %}
+											</ul>
+										</div>
+										{% if message %}
+											<br>
+										{% endif %}
+									</div>
+									<div class="col-md-12">
+										<div class="submit-button text-center">
+											<button class="btn hvr-hover cursor-pointer" id="submit" type="submit">
+												Save Changes
+											</button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</article>
+				</div>
+			</aside>
+		</div>
+	</div>
+{% endblock %}

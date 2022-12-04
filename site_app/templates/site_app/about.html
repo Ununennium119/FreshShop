@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    About Us | Fresh Shop
+{% endblock %}
+
+{% block content %}
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>About Us</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "home" %}">Home</a></li>
+                        <li class="breadcrumb-item active">About Us</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start About Page  -->
+    <div class="about-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="banner-frame"><img class="img-fluid" src="{% static "images/about-img.jpg" %}" alt=""/>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="noo-sh-title-top">We are <span>Fresh Shop</span></h2>
+                    <p>{{ site_setting.about_us_text|linebreaksbr }}</p>
+                </div>
+            </div>
+            <br>
+            <div class="row my-4">
+                <div class="col-12">
+                    <h2 class="noo-sh-title">Meet Our Team</h2>
+                </div>
+                {% for member in members %}
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="hover-team">
+                            <div class="our-team"><img src="{{ member.image.url }}" alt=""/>
+                                <div class="team-content">
+                                    <h3 class="title">{{ member.name }}</h3>
+                                    <span class="post">{{ member.position }}</span>
+                                </div>
+                                <ul class="social">
+                                    {% if member.facebook_link %}
+                                        <li>
+                                            <a href="{{ member.facebook_link }}" target="_blank"
+                                               class="fab fa-facebook"></a>
+                                        </li>
+                                    {% endif %}
+                                    {% if member.twitter_link %}
+                                        <li>
+                                            <a href="{{ member.twitter_link }}" target="_blank"
+                                               class="fab fa-twitter"></a>
+                                        </li>
+                                    {% endif %}
+                                    {% if member.youtube_link %}
+                                        <li>
+                                            <a href="{{ member.youtube_link }}" target="_blank"
+                                               class="fab fa-youtube"></a>
+                                        </li>
+                                    {% endif %}
+                                    {% if member.linkedin_link %}
+                                        <li>
+                                            <a href="{{ member.linkedin_link }}" target="_blank"
+                                               class="fab fa-linkedin"></a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                                <div class="icon"><i class="fa fa-plus" aria-hidden="true"></i></div>
+                            </div>
+                            <div class="team-description">
+                                <p>{{ member.short_introduction }}</p>
+                            </div>
+                            <hr class="my-0">
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- End About Page -->
+{% endblock %}

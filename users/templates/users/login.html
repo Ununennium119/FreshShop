@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+	Sign In | Fresh Shop
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<aside class="col-sm-5">
+				<div class="card form-card">
+					<article class="card-body">
+						<div class="form-right">
+							<h2>Sign In</h2>
+							<hr>
+							<form id="login_form" method="post" action="{% url "login" %}">
+								{% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.GET.next }}" />
+								<div class="row">
+									{% for field in form %}
+										<div class="col-md-12">
+											<div class="form-group has-error">
+												<label for="field.id_for_label">{{ field.label }}</label>
+												{{ field }}
+												<div class="help-block with-errors">
+													<ul class="list-unstyled">
+														{% for error in field.errors %}
+															<li>{{ error }}</li>
+														{% endfor %}
+													</ul>
+												</div>
+											</div>
+										</div>
+									{% endfor %}
+									<div class="col-md-4 offset-md-4 text-center">
+										<div class="help-block with-errors">
+											<ul class="list-unstyled">
+												{% if message %}
+													<li>{{ message }}</li>
+												{% endif %}
+											</ul>
+										</div>
+										{% if message %}
+											<br>
+										{% endif %}
+									</div>
+									<div class="col-md-12">
+										<div class="submit-button text-center">
+											<button class="btn hvr-hover cursor-pointer" id="submit" type="submit">
+												Sign In
+											</button>
+										</div>
+									</div>
+								</div>
+							</form>
+							<br>
+							<div class="text-center">
+								<a href="{% url "register" %}">
+									Don't have an account? Register.
+								</a>
+								<br>
+								<a href="{% url "forget-password" %}">
+									Forget Password?
+								</a>
+							</div>
+						</div>
+					</article>
+				</div>
+			</aside>
+		</div>
+	</div>
+{% endblock %}

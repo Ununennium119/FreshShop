@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+
+{% block title %}
+    Orders | Fresh Shop
+{% endblock %}
+
+{% block content %}
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Orders</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url "home" %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url "account" %}">Account</a></li>
+                        <li class="breadcrumb-item active">Orders</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Wishlist  -->
+    <div class="wishlist-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Is Finalized</th>
+                                <th>Finalization Date</th>
+                                <th>Total Price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for order in object_list %}
+                                <tr>
+                                    <td class="id-or">
+                                        <a href="{% url "order" order.id %}">{{ order.id }}</a>
+                                    </td>
+                                    <td class="finalized-or">
+                                        {% if order.is_paid %}
+                                            Yes
+                                        {% else %}
+                                            No
+                                        {% endif %}
+                                    </td>
+                                    <td class="finalization-date-or">
+                                        {% if order.is_paid %}
+                                            {{ order.payment_time }}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    <td class="price-or">
+                                        {{ order.grand_total_price }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Wishlist -->
+{% endblock %}

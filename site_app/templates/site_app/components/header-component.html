@@ -1,0 +1,110 @@
+{% load render_partial %}
+{% load static %}
+
+<!-- Start Main Top -->
+<div class="main-top">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="right-phone-box">
+                    <p>Call US : {{ site_setting.phone }}</p>
+                </div>
+                <div class="our-link">
+                    <ul>
+                        {% if request.user.is_authenticated %}
+                            <li>
+                                <a href="{% url "account" %}">
+                                    <i class="fa fa-user s_color"></i> Account
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li>
+                            <a href="{% url "about" %}">
+                                <i class="fas fa-exclamation-circle"></i> About Us
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url "contact" %}">
+                                <i class="fas fa-phone"></i> Contact Us
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="login-box">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url "logout" %}">
+                            Logout
+                        </a>
+                    {% else %}
+                        <a href="{% url "login" %}">
+                            Sign In
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="text-slid-box">
+                    <div id="offer-box" class="carouselTicker">
+                        <ul class="offer-box">
+                            {% for discount_ad in discount_ads %}
+                                <li>
+                                    <i class="fab fa-opencart"></i> {{ discount_ad.text }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Main Top -->
+
+<!-- Start Main Top -->
+<header class="main-header">
+    <!-- Start Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+        <div class="container">
+            <!-- Start Header Navigation -->
+            <div class="navbar-header">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                        aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="{% url "home" %}">
+                    <img src="{{ site_setting.site_logo.url }}" class="logo" alt="">
+                </a>
+            </div>
+            <!-- End Header Navigation -->
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "home" %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "products" %}">Shop</a>
+                    </li>
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "cart" %}">Cart</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "account" %}">Account</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "about" %}">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "contact" %}">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+    </nav>
+    <!-- End Navigation -->
+</header>
+<!-- End Main Top -->
